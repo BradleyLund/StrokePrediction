@@ -1,0 +1,5 @@
+**Training:** some models just learn to predict "no" for everyone. Common fixes are **class weights**, which tell the model a missed stroke counts more, and **resampling** techniques. We'll cover these when we build models.
+
+This was quite interesting to me, and I think will be useful to pick up and show that I understand. If a model does learn to predict no for everyone, that might be okay in another scenario or example like a gambling or betting model. but a model where we are trying to predict a stroke, it is important as above, where a missed stroke would be huge for society, and makes sense that class weights, which i don't know yet would be used to make sure a missed stroke counts more to avoid that situation.
+
+Data leakage because of the bmi missing. If the bmi missing from the dataset is because they weren't measured because they were actively having a stroke. We can't really use that data point of an unknown bmi because that is data leakage. we are trying to predict strokes for patients who haven't had a stroke yet. the model would be using a clue that won't exist for the newer patients we are trying to predict.
