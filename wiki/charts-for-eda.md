@@ -37,8 +37,23 @@ pd.cut(df["age"], bins=[18, 30, 40, 50, 60, 70, 83], right=False)
 ## Reference lines
 A dashed line at the **overall stroke rate** makes each bar easy to read: above the line = riskier than average, below = safer than average.
 
+## Rate vs count: two different stories
+A rate chart answers **"how risky is each group?"** A count answers **"where are most of the cases?"** Both are useful, but don't read one off the other's chart.
+
+| Age group | Patients | Strokes (count) | Stroke rate |
+|---|---|---|---|
+| 50–59 | 834 | 48 | 5.8% |
+| 60–69 | 621 | 47 | 7.6% |
+| 70+ | 755 | 134 | **17.7%** |
+
+- **Rate:** a 70+ patient is about 3× as likely to have a stroke as the average adult.
+- **Count:** 73% of all strokes (181 of 247) are in patients aged 60+.
+
+For outreach, both matter. The rate says who is riskiest *per call*, and the count says where most of the cases you could prevent actually are.
+
 ## Cautions when reading EDA charts
-- **Small groups are noisy.** A bar built from 17 patients (e.g. `Never_worked`) can show 0% or 20% by pure chance. Always ask "how many patients is this bar based on?"
+- **Small groups are noisy.** `Never_worked` contains only **5 adults**. With a 5.8% stroke rate, you'd expect 0.3 strokes among 5 people, so seeing 0 tells you nothing. Always ask "how many patients is this bar based on?"
+- **Charts can hide missing data.** The BMI box plot silently leaves out patients with missing BMI, and that includes 39 of the 247 adult stroke patients (16%), the sickest group. A chart only shows the rows that have a value.
 - **One feature at a time can mislead.** Each chart shows one feature on its own, so confounders (especially age) can create patterns that aren't real. `ever_married` looks risky mainly because married people are older. See [hypotheses-and-confounding.md](hypotheses-and-confounding.md).
 - **Related ≠ causes.** "Correlation is not causation". A chart shows two things move together, not that one causes the other.
 

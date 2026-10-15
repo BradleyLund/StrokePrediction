@@ -52,6 +52,11 @@ This is a living list. Add to it whenever something interesting comes up that wo
 - **Why:** Childhood strokes usually have different causes (e.g. congenital conditions) from adult strokes. They're out of scope for an adult prevention program but might deserve a separate clinical review.
 - **How:** Not a modelling task. Flag them to the clinical team.
 
+### 9. Why doesn't smoking (or BMI) show a stronger link to stroke?
+- **What:** Smoking and BMI are well-known stroke risk factors medically, but show little difference in this data. Only "formerly smoked" stands out (8.1% vs ~5%).
+- **Why:** "Formerly smoked" patients are older (median age 58 vs ~48), so that bar may just be age again (confounding). The data also lacks detail: no amount or duration of smoking, 30% "Unknown", and BMI's effect may run *through* hypertension and diabetes, which are already in the data. Missing-BMI patients (the sickest) are also absent from the BMI comparison.
+- **How:** Compare smoking groups within age bands (e.g. 60–69 only). Ask whether richer data (pack-years, smoking duration) is available. The model, which sees all features together, will partly answer this.
+
 ---
 
 <!-- Add new items below as we go (models, metrics, thresholds, fairness...) -->

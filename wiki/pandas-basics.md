@@ -38,5 +38,29 @@ pandas lets you string steps together: `df.isna().sum()` means "take df → mark
 | `object` | Text (strings) in pandas |
 | `bool` | True / False |
 
+## Shapes: 1-D vs 2-D
+| Code | Type | Shape | Think of it as |
+|---|---|---|---|
+| `df["stroke"]` (single brackets) | Series | `(4253,)` | A **list** of 4,253 values: one dimension |
+| `df[["stroke"]]` (double brackets) | DataFrame | `(4253, 1)` | A **table** with 4,253 rows and 1 column: two dimensions |
+
+`(4253,)` is a shape with only one number, meaning "1-dimensional, length 4253". The trailing comma is just how Python writes a one-item tuple. scikit-learn expects **y as 1-D** and **X as 2-D**.
+
+## numpy arrays and `[rows, columns]` indexing
+scikit-learn often returns **numpy arrays**: grids of numbers without column names. You pick parts of them with `array[rows, columns]`:
+
+| Code | Meaning |
+|---|---|
+| `probs[0, 1]` | Row 0, column 1: a single number |
+| `probs[:5]` | The first 5 rows (all columns) |
+| `probs[:, 1]` | **All** rows, column 1 only |
+| `probs[:5, 1]` | First 5 rows, column 1 only |
+
+- `:` on its own means "everything along this dimension".
+- `:5` means "from the start up to (not including) 5", i.e. positions 0–4.
+- Python counts from **0**, so column 0 is the first column and column 1 is the second.
+
+`predict_proba` returns 2 columns: `[P(no stroke), P(stroke)]`. Each row adds up to 1. `[:, 1]` keeps just the stroke probability for every patient.
+
 ## A note on the trick behind `.mean()` on a 0/1 column
 If a column is all 0s and 1s, its **mean is the proportion of 1s**. So `df["stroke"].mean()` = 0.049 means 4.9% of patients had a stroke. You'll use this trick constantly.

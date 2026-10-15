@@ -29,16 +29,19 @@ Each page explains one idea in plain English, with a "Why it matters for this pr
 ### Step 3: Visualising the data
 - [Charts for EDA](charts-for-eda.md): which chart for which question, reading box plots, binning, cautions
 
+### Step 4: Baseline model
+- [Train / test split](train-test-split.md): why we hide patients from the model, stratification, random_state
+- [Preprocessing and pipelines](preprocessing-and-pipelines.md): imputation, scaling, one-hot encoding, and why pipelines prevent leakage
+- [Logistic regression](logistic-regression.md): how it works, reading coefficients, and the 0.5 trap
+- [Evaluation metrics](evaluation-metrics.md): confusion matrix, precision/recall, ROC AUC, PR AUC, top-N, lift, gains chart
+
 ### Domain knowledge
 - [Predicting insurance claim denials](claim-denial-prediction.md): what's on a claim, why claims get denied, and features a denial model could use
 - [ML ideas for eligibility verification](eligibility-ml-ideas.md): rules vs models, plan assignment, and other eligibility use cases
 
 ### Coming up (added as we reach them)
-- Encoding categorical variables
-- Train/test split and cross-validation
-- Logistic regression (our baseline model)
+- Cross-validation
 - Tree-based models (random forest / gradient boosting)
-- Evaluation metrics: precision, recall, ROC AUC, PR AUC
 - Choosing a threshold
 - Data leakage
 
