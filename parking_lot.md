@@ -57,6 +57,36 @@ This is a living list. Add to it whenever something interesting comes up that wo
 - **Why:** "Formerly smoked" patients are older (median age 58 vs ~48), so that bar may just be age again (confounding). The data also lacks detail: no amount or duration of smoking, 30% "Unknown", and BMI's effect may run *through* hypertension and diabetes, which are already in the data. Missing-BMI patients (the sickest) are also absent from the BMI comparison.
 - **How:** Compare smoking groups within age bands (e.g. 60–69 only). Ask whether richer data (pack-years, smoking duration) is available. The model, which sees all features together, will partly answer this.
 
+### 10. Tune the tree models properly
+- **What:** Systematically tune random forest and gradient boosting hyperparameters (depth, leaf size, learning rate).
+- **Why:** With default or lightly constrained settings they tied with logistic regression. Careful tuning *might* find a small gain, though with only ~200 training strokes I'd expect little.
+- **How:** `GridSearchCV` or `RandomizedSearchCV` with stratified 5-fold CV on the training set, scored on PR AUC. Only adopt a tree model if it beats LR by more than the CV noise.
+
+### 10b. Richer clinical features (likely the biggest win)
+- **What:** Add features known to drive stroke risk that this extract doesn't have: blood pressure readings (not just yes/no hypertension), atrial fibrillation, cholesterol, diabetes diagnosis and HbA1c, prior TIA (mini-stroke), medications, family history, smoking amount.
+- **Why:** Three very different model types all scored about the same (ROC AUC ≈ 0.81–0.82). That suggests we've hit the **data ceiling**: the limit is the information in these 10 columns, not the algorithm.
+- **How:** Work with the data/clinical teams to pull these from the health record, then re-run the same pipeline and comparison.
+
+### 11. Calibration of predicted probabilities
+- **What:** Check whether a predicted 20% risk really means about 20% of such patients have a stroke.
+- **Why:** We use the model to *rank*, which doesn't need calibrated probabilities. But if coordinators or clinicians see individual risk percentages, those need to be trustworthy.
+- **How:** A calibration plot (predicted vs actual rate, by risk band). If needed, `CalibratedClassifierCV`.
+
+### 12. Fairness check across groups
+- **What:** Check whether the model performs equally well for men and women, urban and rural patients, and different age bands.
+- **Why:** An outreach list that systematically under-ranks one group would make health inequalities worse.
+- **How:** Compute recall@N and PR AUC separately per group on the test set or CV folds, and compare.
+
+### 13. Monitoring after launch
+- **What:** Track the model's performance and the patient mix over time.
+- **Why:** Populations and recording practices change (e.g. if BMI starts being recorded differently), and model performance can quietly degrade. This is called **drift**.
+- **How:** Monthly report on outcomes for contacted vs non-contacted patients, feature distributions, and recall@N. Re-train periodically.
+
+### 14. Measure the outreach program's real effect
+- **What:** Find out whether calls actually *prevent* strokes, not just whether the model finds high-risk patients.
+- **Why:** The model identifies risk. It doesn't prove the intervention works.
+- **How:** A pilot that compares contacted high-risk patients with a similar group not yet contacted (e.g. a staggered rollout).
+
 ---
 
 <!-- Add new items below as we go (models, metrics, thresholds, fairness...) -->

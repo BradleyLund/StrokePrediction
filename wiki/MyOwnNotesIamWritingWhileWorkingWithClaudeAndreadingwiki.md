@@ -18,3 +18,20 @@ Precision: Of the patients we called, what share were real stroke patients at ri
 Recall: Of the number of stroke patients in total, how many did we reach out to? TP / TP + FN
 
 these top two metrics go against each other, because if we call more patients and reach more stroke patients, recall goes up, but precision goes down I would very much argue, that we should be aiming for highest recall here, and use the full capacity that we have to call as many as possible?
+
+Speak to this in my presentation: 2. Should you say you'd spend a week tuning models?
+No. Your instinct is right, and saying it the way you just did will impress them.
+
+You have evidence for it, not just a hunch. Three very different types of model all landed in the same place:
+
+Model How it works CV ROC AUC
+Logistic regression Adds up weighted features 0.82
+Random forest Averages hundreds of trees 0.81
+Gradient boosting Trees that correct each other in sequence 0.81
+When completely different approaches hit the same ceiling, the limit is the data, not the algorithm. These 10 columns only contain so much information about something as complex as a stroke. More tuning might gain 0.01, which is within the noise.
+
+The bigger gains would come from better data, which is what you described:
+
+Richer clinical features: actual blood pressure readings (not just yes/no), atrial fibrillation (an irregular heartbeat, a major stroke risk factor), cholesterol, diabetes diagnosis, previous mini-strokes (TIAs), medications, family history, how much someone smokes
+Better timing: features measured before the outcome, and a target of "stroke in the next X years"
+More stroke cases, e.g. from more years of records

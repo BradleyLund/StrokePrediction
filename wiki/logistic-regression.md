@@ -36,6 +36,15 @@ That last part is how a model handles confounding. In EDA, `ever_married` looked
 
 **Caution:** coefficients show **association, not causation**. And for 0/1 or one-hot columns, the size isn't directly comparable to the standardised number columns.
 
+## Big coefficient ≠ big impact on the model overall
+`bmi_missing` has one of the largest coefficients (1.21), yet removing it barely changed performance (CV PR AUC 0.23 → 0.20). Three reasons:
+
+1. **It applies to few patients.** Only about 4% of adults have missing BMI. A big push for a few patients changes little of the overall ranking.
+2. **Scale differs.** For a 0/1 flag, the coefficient is the effect of going from 0 to 1. For standardised age, it's the effect *per standard deviation* (about 18 years). Adult ages span roughly 3.6 standard deviations, so age's total effect is about 1.30 × 3.6 ≈ **4.7**, nearly 4× the flag's 1.21.
+3. **Overlapping information.** Missing-BMI patients are also older, with more hypertension, heart disease and higher glucose. Remove the flag and those features **pick up much of the slack**. The information is partly *redundant*.
+
+Useful phrase: *"the coefficient tells you how much a feature matters for the patients who have it. Removing it tells you how much the model as a whole depends on it."*
+
 ## max_iter
 The model finds its weights through repeated small improvements (**iterations**). `max_iter=1000` allows up to 1,000 steps. The default of 100 sometimes isn't enough, and you'd get a "failed to converge" warning.
 

@@ -35,14 +35,19 @@ Each page explains one idea in plain English, with a "Why it matters for this pr
 - [Logistic regression](logistic-regression.md): how it works, reading coefficients, and the 0.5 trap
 - [Evaluation metrics](evaluation-metrics.md): confusion matrix, precision/recall, ROC AUC, PR AUC, top-N, lift, gains chart
 
+### Step 5: Stronger models
+- [Cross-validation](cross-validation.md): fair model comparison without touching the test set
+- [Overfitting](overfitting.md): memorising vs learning, train vs CV scores, hyperparameters
+- [Tree-based models](tree-models.md): decision trees, random forests, gradient boosting, and when simple wins
+
+### Step 6: Decisions
+- [Thresholds and decisions](thresholds-and-decisions.md): capacity-based cutoffs, diminishing returns, expected impact, calibration
+
 ### Domain knowledge
 - [Predicting insurance claim denials](claim-denial-prediction.md): what's on a claim, why claims get denied, and features a denial model could use
 - [ML ideas for eligibility verification](eligibility-ml-ideas.md): rules vs models, plan assignment, and other eligibility use cases
 
 ### Coming up (added as we reach them)
-- Cross-validation
-- Tree-based models (random forest / gradient boosting)
-- Choosing a threshold
 - Data leakage
 
 ## Reference
