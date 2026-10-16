@@ -12,3 +12,9 @@ This was interesting to me. like we could use this to increase the probability o
 
 one hot encoder is done because otherwise if we assinged different work types numbers like 0,1,2,3,
 2(home) would be twice the size of 1 (factory) for no real reason and the model just sees numbers
+
+Precision: Of the patients we called, what share were real stroke patients at risk (True positive / (True Positive + False Positive))
+
+Recall: Of the number of stroke patients in total, how many did we reach out to? TP / TP + FN
+
+these top two metrics go against each other, because if we call more patients and reach more stroke patients, recall goes up, but precision goes down I would very much argue, that we should be aiming for highest recall here, and use the full capacity that we have to call as many as possible?

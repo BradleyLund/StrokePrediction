@@ -42,6 +42,28 @@ Baseline model on the test set (851 patients, 49 strokes):
 ## Threshold-free metrics: judging the ranking itself
 Precision and recall change with the threshold. To compare **models** fairly, we want metrics that judge the whole ranking at once.
 
+### How can a score have no threshold?
+It doesn't skip thresholds. It **tries every possible threshold at once**, or equivalently, it only looks at the **order** of the patients. Sort the patients by predicted probability and the actual numbers stop mattering. Only the order counts.
+
+Worked example: 6 patients sorted by risk, highest first. S = stroke, N = no stroke:
+```
+Position:  1   2   3   4   5   6
+Actual:    S   N   S   N   N   S
+```
+**ROC AUC: count the pairs.** There are 3 strokes × 3 non-strokes = 9 stroke-vs-non-stroke pairs. In how many is the stroke ranked higher?
+- Stroke at position 1 is above all 3 Ns → 3
+- Stroke at position 3 is above the Ns at positions 4 and 5 → 2
+- Stroke at position 6 is above none → 0
+- ROC AUC = 5 / 9 = **0.56**
+
+**PR AUC (average precision): walk down the list.** Each time you reach a stroke, write down the precision so far:
+- 1st stroke at position 1: 1 of 1 called were strokes → 1.00
+- 2nd stroke at position 3: 2 of 3 → 0.67
+- 3rd stroke at position 6: 3 of 6 → 0.50
+- Average precision = (1.00 + 0.67 + 0.50) / 3 = **0.72**
+
+A perfect ranking (S S S N N N) scores 1.0 on both. Notice that average precision rewards finding strokes **early in the list**, which is exactly what limited call capacity needs.
+
 ### ROC AUC
 **ROC** = Receiver Operating Characteristic. **AUC** = Area Under the Curve.
 
@@ -54,6 +76,8 @@ The intuitive meaning: **pick one random stroke patient and one random non-strok
 
 ### PR AUC (Average Precision)
 The area under the **Precision–Recall curve**. In scikit-learn it's `average_precision_score`. It focuses only on how well the **positives** are found and ranked, so it's **more informative when positives are rare**.
+
+**The PR curve:** recall on the x-axis, precision on the y-axis, with one point per possible threshold. Moving right means a lower threshold: more patients flagged, so more strokes found, but a smaller share of the flagged patients are real strokes. The random baseline is a **flat horizontal line at the stroke rate**. The left end of the curve is jagged, because there precision is based on only a handful of patients.
 
 **Its baseline isn't 0.5.** A random model's PR AUC equals the **stroke rate** (≈ 0.058). So a PR AUC of 0.23 looks low, but it's about **4× better than random**. Always quote it next to its baseline.
 
@@ -76,6 +100,21 @@ X-axis: % of patients called (highest risk first). Y-axis: % of all stroke patie
 - A good model **bows up and to the left**. Our baseline reaches about **63% of strokes by calling the top 20%**.
 
 It's the clearest single chart for a non-technical audience: *"call this many, reach this many."*
+
+### Gains chart vs ROC curve: close cousins
+| | Y-axis | X-axis |
+|---|---|---|
+| **Gains chart** | Recall (% of strokes reached) | % of **all** patients called = (TP + FP) / everyone |
+| **ROC curve** | Recall, called **TPR** (True Positive Rate) here | **FPR** (False Positive Rate) = FP / (FP + TN) = % of **non-stroke** patients called |
+
+The y-axis is identical. Only the x-axis differs: "everyone we called" vs "only the healthy people we called".
+
+When positives are rare, those x-axes are almost the same number, because nearly everyone called is a non-stroke patient anyway:
+> % called = 5.8% × TPR + 94.2% × FPR
+
+So the two curves look very similar here. With a 50/50 outcome they'd look quite different.
+
+**When to use which:** the ROC curve (and its area, ROC AUC) is the standard technical summary that every data scientist recognises. The gains chart's x-axis is **workload** (calls made), which maps directly onto the outreach team's capacity, so it's the better chart for the non-technical audience.
 
 ## Which metric for what
 | Purpose | Metric |

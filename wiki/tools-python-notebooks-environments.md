@@ -33,5 +33,20 @@ pip install pandas ...          # packages now install into .venv only
 
 `pip` is Python's package installer. A `requirements.txt` file lists the packages a project needs, so anyone can recreate the environment with `pip install -r requirements.txt`. This is part of making your code "run end to end" on someone else's machine.
 
+## Reading error messages (tracebacks)
+When code fails, Python prints a **traceback**. Read it **bottom-up**:
+1. **Last line:** the error type and message (e.g. `TypeError: Cannot interpret '852' as a data type`). This is *what* went wrong.
+2. **The `---->` arrow:** the exact line that failed. This is *where* it went wrong.
+3. Compare that line to the code you meant to write, character by character. Most errors are typos: `np.array` vs `np.arange`, a missing bracket, a misspelled column name.
+
+Common error types:
+| Error | Usually means |
+|---|---|
+| `NameError` | You used a variable that doesn't exist yet (typo, or the cell that creates it wasn't run) |
+| `KeyError` | A column name doesn't exist (check spelling and capitals) |
+| `TypeError` | Right function, wrong kind of input |
+| `SyntaxError` | Python can't read the line (missing bracket, quote or colon) |
+| `IndentationError` | The spaces at the start of a line are wrong |
+
 ## Why it matters for this project
 The submission must be a notebook or script that runs end to end. A venv plus a requirements.txt plus "Restart & Run All" is how you make sure it does.

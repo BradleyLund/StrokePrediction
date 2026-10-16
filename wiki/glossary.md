@@ -33,6 +33,7 @@ Terms and acronyms in plain English. Added to as we go.
 | **Easy negatives** | Cases a model can trivially classify as negative (e.g. children for stroke). They make metrics look better than the model really is |
 | **EDA** | Exploratory Data Analysis: looking at and summarising data before modelling |
 | **F1 score** | The harmonic mean of precision and recall. A single combined number |
+| **FPR** | False Positive Rate = FP / (FP + TN): the share of non-stroke patients wrongly flagged. The x-axis of a ROC curve |
 | **Feature** | An input column used to make a prediction (also: predictor, variable, X) |
 | **FN / FP** | False Negative (a missed stroke patient) / False Positive (a flagged patient who didn't have a stroke) |
 | **Fuzzy matching** | Comparing text by how similar it is, so small differences like typos still match |
@@ -89,6 +90,7 @@ Terms and acronyms in plain English. Added to as we go.
 | **Test set** | Patients held back from training, used once at the end to estimate real-world performance |
 | **Threshold** | The probability cutoff above which we flag a patient as "high risk" |
 | **TN / TP** | True Negative (correctly not flagged) / True Positive (correctly flagged) |
+| **Traceback** | Python's error report. Read it bottom-up: error message last, failing line marked with an arrow |
 | **Training set** | The patients a model learns from |
 | **venv** | Virtual environment: a private set of Python packages for one project |
 | **X / y** | Conventional names for the features table (X) and the target column (y) |
